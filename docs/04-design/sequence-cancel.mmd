@@ -1,0 +1,19 @@
+sequenceDiagram
+    actor U as Пользователь
+    participant P as React UI
+    participant C as BookingController
+    participant M as BookingService
+    participant F as BookingRepository
+    participant DB as PostgreSQL
+    U->>P: Отмена бронирования
+    P->>C: DELETE /api/bookings/{id}
+    C->>M: cancel(id, username)
+    M->>F: findWithRelationsById(id)
+    F->>DB: SELECT booking + user + room
+    DB-->>F: Booking
+    F-->>M: Booking
+    M->>M: проверка владельца
+    M->>DB: UPDATE status=CANCELLED
+    M-->>C: success
+    C-->>P: 204 No Content
+    P-->>U: Бронь отменена

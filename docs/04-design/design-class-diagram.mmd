@@ -1,0 +1,13 @@
+classDiagram
+class User { +Long id +String username +String role }
+class MeetingRoom { +Long id +String name +int capacity +String location +String equipment }
+class Booking { +Long id +LocalDateTime startAt +LocalDateTime endAt +String status }
+class Workspace { +Long id +String name +String type +int capacity }
+class Equipment { +Long id +String name +String description }
+class Building { +Long id +String name +String address }
+class Notification { +Long id +String message +LocalDateTime createdAt +boolean readFlag }
+class AuditLog { +Long id +String username +String action +LocalDateTime createdAt }
+User "1" --> "0..*" Booking
+MeetingRoom "1" --> "0..*" Booking
+User "1" --> "0..*" Notification
+User "1" --> "0..*" AuditLog

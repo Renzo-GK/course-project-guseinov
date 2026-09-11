@@ -1,0 +1,25 @@
+sequenceDiagram
+    actor U as Пользователь
+    participant P as Presentation
+    participant C as Control
+    participant M as Mediator
+    participant F as Foundation
+    participant DB as PostgreSQL
+
+    U->>P: POST /api/bookings
+    P->>C: DTO + validation
+    C->>M: create(user, room, interval)
+    M->>F: check overlapping bookings
+    F->>DB: SELECT bookings
+    DB-->>F: existing intervals
+    F-->>M: conflict/no conflict
+    alt conflict
+        M-->>P: 409 Conflict
+    else free
+        M->>F: save Booking
+        F->>DB: INSERT
+        DB-->>F: saved row
+        F-->>M: Booking
+        M-->>P: 201 Created
+    end
+    P-->>U: result

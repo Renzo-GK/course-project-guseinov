@@ -1,0 +1,8 @@
+flowchart LR
+    P["Presentation<br/>REST Controllers / UI"]
+    C["Control<br/>DTO / Validation / Security"]
+    M["Mediator<br/>Business Services / Transactions"]
+    E["Entity<br/>User / MeetingRoom / Booking"]
+    F["Foundation<br/>Repositories / PostgreSQL"]
+
+    P --> C --> M --> E --> F

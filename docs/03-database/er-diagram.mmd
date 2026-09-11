@@ -1,0 +1,27 @@
+erDiagram
+    USERS ||--o{ BOOKINGS : creates
+    MEETING_ROOMS ||--o{ BOOKINGS : contains
+
+    USERS {
+        bigint id PK
+        varchar username UK
+        varchar password
+        varchar role
+    }
+
+    MEETING_ROOMS {
+        bigint id PK
+        varchar name
+        int capacity
+        varchar location
+        text equipment
+    }
+
+    BOOKINGS {
+        bigint id PK
+        bigint user_id FK
+        bigint room_id FK
+        timestamp start_at
+        timestamp end_at
+        varchar status
+    }

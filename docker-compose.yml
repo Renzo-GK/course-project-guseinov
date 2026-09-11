@@ -1,0 +1,35 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: meeting-room-postgres
+    environment:
+      POSTGRES_DB: meeting_room
+      POSTGRES_USER: meeting
+      POSTGRES_PASSWORD: meeting
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  backend:
+    build: ./backend
+    container_name: meeting-room-backend
+    depends_on:
+      - postgres
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/meeting_room
+      SPRING_DATASOURCE_USERNAME: meeting
+      SPRING_DATASOURCE_PASSWORD: meeting
+    ports:
+      - "8080:8080"
+
+  frontend:
+    build: ./frontend
+    container_name: meeting-room-frontend
+    depends_on:
+      - backend
+    ports:
+      - "5173:80"
+
+volumes:
+  postgres_data:

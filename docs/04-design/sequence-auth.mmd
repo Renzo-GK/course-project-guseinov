@@ -1,0 +1,17 @@
+sequenceDiagram
+    actor U as Пользователь
+    participant P as React UI
+    participant A as AuthController
+    participant S as Spring Security
+    participant J as JwtService
+    participant DB as PostgreSQL
+    U->>P: Логин и пароль
+    P->>A: POST /api/auth/login
+    A->>S: authenticate()
+    S->>DB: найти пользователя
+    DB-->>S: User + BCrypt hash
+    S-->>A: Authentication
+    A->>J: generateToken()
+    J-->>A: JWT
+    A-->>P: token + role
+    P-->>U: Авторизованный интерфейс

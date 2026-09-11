@@ -1,0 +1,17 @@
+sequenceDiagram
+    actor A as Администратор
+    participant UI as Web UI
+    participant C as Admin Controller
+    participant M as Room Service
+    participant F as Room Repository
+    participant DB as PostgreSQL
+
+    A->>UI: Изменить комнату
+    UI->>C: PUT /api/admin/rooms/{id}
+    C->>M: update(id, dto)
+    M->>F: findById/save
+    F->>DB: UPDATE meeting_rooms
+    DB-->>F: row updated
+    F-->>M: Entity
+    M-->>C: Entity
+    C-->>UI: 200 OK
